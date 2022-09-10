@@ -1,5 +1,4 @@
-requirements:
-
-pip install --user -U nltk
-
-pip install --user -U numpy
+nltk
+numpy
+pandas
+openpyxl
