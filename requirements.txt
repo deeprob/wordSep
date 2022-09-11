@@ -2,3 +2,5 @@ nltk
 numpy
 pandas
 openpyxl
+seaborn
+wordcloud
