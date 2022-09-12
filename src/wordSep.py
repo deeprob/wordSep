@@ -11,6 +11,8 @@ def main(gene_desc_file, save_dir):
     freqs = ut.get_word_frequencies(all_descriptions_tokenized, 3)
     # save freq dist tables
     [ut.save_freqdist_tables(fq, sv) for fq,sv in zip(freqs, [os.path.join(save_dir, "tables", f"freqdist_{n}.csv") for n in range(1, 3+1)])]
+    # save freq dist figures
+    [ut.save_freqdist_plots(fq, sv) for fq,sv in zip(freqs, [os.path.join(save_dir, "figures", f"freqdist_{n}.pdf") for n in range(1, 3+1)])]
     # generate word cloud from frequencies
     [ut.save_word_clouds(fq, sv) for fq,sv in zip(freqs, [os.path.join(save_dir, "figures", f"wordcloud_{n}.pdf") for n in range(1, 3+1)])]
     return

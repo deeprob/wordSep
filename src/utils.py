@@ -2,8 +2,16 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk import FreqDist
 import pandas as pd
-import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+
+import matplotlib
+import matplotlib.pyplot as plt
+import seaborn as sns
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
+sns.set_style({'font.family':'sans-serif', 'font.sans-serif':'Arial'})
+from matplotlib.ticker import MultipleLocator
+from matplotlib.backends.backend_pdf import PdfPages
 
 
 ##############################
@@ -67,6 +75,36 @@ def save_freqdist_tables(freqdist, save_file):
     fdist_df["words"] = [" ".join(x) for x in words]
     fdist_df["counts"] = counts
     fdist_df.sort_values("counts", ascending=False).to_csv(save_file, index=False)
+    return
+
+
+def save_freqdist_plots(freqdist, save_file, ntops=20):
+    fdist_df = pd.DataFrame()
+    words, counts = zip(*freqdist.items())
+    fdist_df["words"] = [" ".join(x) for x in words]
+    fdist_df["counts"] = counts
+    fdist_df = fdist_df.sort_values("counts", ascending=False)
+    
+    pdf = PdfPages(save_file)
+    fig = plt.figure(figsize=(3,2))
+    g = sns.barplot(data=fdist_df.iloc[:ntops, :], x='words', y="counts", hue='counts', dodge=False, palette=['#F28E2B', '#4E79A7'])
+    # plt.xlim([-2.5, 2.5])
+    # plt.ylim([0, 25])
+    ax = plt.gca()
+    # ax.xaxis.set_major_locator(MultipleLocator(2.5))
+    ax.yaxis.set_minor_locator(MultipleLocator(10))
+    # ax.yaxis.set_major_locator(MultipleLocator(10))
+
+    # sns.move_legend(g, bbox_to_anchor=(1,0.9),loc='upper left')
+    g.legend_.remove()
+    g.set_ylabel("Counts")
+    g.set_title('Frequency distribution of words')
+    g.set_xticklabels(g.get_xticklabels(), rotation=90, fontsize=4)
+    # for item in g.get_xticklabels():
+    #     item.set_rotation(90)
+
+    pdf.savefig(fig, bbox_inches='tight')
+    pdf.close()   
     return
 
 
