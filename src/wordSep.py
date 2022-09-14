@@ -19,6 +19,13 @@ def main(gene_desc_file, save_dir):
 
 
 if __name__ == "__main__":
-    gene_desc_file = "/data5/deepro/ukbiobank/analysis/bmi_project/bmi_gene_desc_nlp/data/BMI_Genes.xlsx"
-    save_dir = "/data5/deepro/ukbiobank/analysis/bmi_project/bmi_gene_desc_nlp/data/results"
-    main(gene_desc_file, save_dir)
+    gene_desc_files = [
+        "/data5/deepro/ukbiobank/analysis/bmi_project/bmi_gene_desc_nlp/data/BMI_Genes.xlsx",
+        "/data5/deepro/ukbiobank/analysis/bmi_project/bmi_gene_desc_nlp/data/Icd_10_Menopause.xlsx",
+    ]
+    save_dirs = [
+        "/data5/deepro/ukbiobank/analysis/bmi_project/bmi_gene_desc_nlp/data/results/bmi_genes",
+        "/data5/deepro/ukbiobank/analysis/bmi_project/bmi_gene_desc_nlp/data/results/icd_10_menopause"
+    ]
+    for gdf, sd in zip(gene_desc_files, save_dirs):
+        main(gdf, sd)
